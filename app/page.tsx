@@ -48,22 +48,28 @@ const stages = [
     summary: '違う時間に撮った映像を、1つの場面へつなぐ。',
     responsibility: '画面設計と撮影の進行',
     tool: 'カメラ、絵コンテ、記録表',
-    question: '同じ会話を、違う角度から何度も撮影します。編集したときに俳優の動きや小道具が急に変わらないようにするには、何が必要でしょう？',
+    question: '昼食の会話を、午後に別の角度から撮ります。俳優の演技は少し良くなり、コーヒーカップの量だけが午前のテイクと違います。限られた時間で、まずどの判断を共有しますか？',
     answers: [
-      'テイクごとに自由に動きを変える',
-      '立ち位置、動き、小道具の状態を記録して合わせる',
-      '撮影がすべて終わってから思い出す',
+      '演技が良ければ小道具の状態は気にせず、そのまま撮る',
+      'つながる可能性のあるカットを確認し、動き・視線・小道具の状態を記録と照合する',
+      '編集担当が気づいたときに、CGで直せるか検討する',
     ],
     correct: 1,
     reactions: [
-      'カットをつなぐと、手や小道具の位置が突然変わって見えてしまいます。',
-      '前のカットの状態を共有できたため、別々に撮った映像が自然につながりました。',
-      '細かな状態を記憶だけで再現するのは難しく、撮り直しの原因になります。',
+      '演技の良さは大切ですが、つながるカットでは小道具の変化が観客の注意を奪うことがあります。',
+      '演技の意図と画面のつながりを両方守るために、記録をもとに関係者で調整できます。',
+      '後工程で直せる場合もありますが、追加費用や時間が必要です。撮影時の確認が最初の選択です。',
     ],
     keyword: 'つながりの管理',
     why: '映画の場面は、台本の順番どおりに撮るとは限りません。同じ数秒の会話でも、俳優ごとの寄り、全体、手元などを別々の時刻に撮影します。そのため、前のテイクの状態を記録して再現しなければ、編集した瞬間に動きや物の位置が飛んで見えます。',
     detail: '現場では、担当者が台本へ動作を書き込み、衣装、小道具、飲み物の量、髪の乱れ、照明の向きまで写真と文章で残します。次の画角を撮る前に、その記録と直前の映像を照合します。演技を縛るためではなく、俳優が安心して同じ時間を再現できるようにする仕組みです。',
     checkpoints: ['俳優の立ち位置と視線', '衣装・髪・小道具の状態', '動作を始める言葉と終える位置'],
+    caseStudy: {
+      title: '公開資料から：記録は部門をまたぐ共通言語',
+      body: 'アカデミーの衣装デザイン教材では、衣装監督が脚本を連続性の観点で分解し、衣装の記録を監督・美術・俳優・ヘアメイクと共有する役割を紹介しています。細部の記録は、演技を縛るためではなく、複数の部門が同じ場面を再現するための土台です。',
+      sourceLabel: 'Academyの教材を読む（英語）',
+      sourceUrl: 'https://www.oscars.org/sites/oscars/files/teachersguide-costumedesign-2015.pdf',
+    },
   },
   {
     id: 'lighting',
@@ -78,22 +84,28 @@ const stages = [
     summary: '光の変化で、舞台の時間と感情を動かす。',
     responsibility: '光の設計と合図の管理',
     tool: '照明卓、仕込み図、台本',
-    question: '主役が舞台を横切る間に、場面を昼から夜へ変えます。表情を見せながら時間の変化も伝えるには、どうすればよいでしょう？',
+    question: '窓からの夕方の光に見える場面です。雲で外光が変わり、撮影時間も残り少ない状況。画の雰囲気と次のカットとのつながりを守るため、どの進め方が最も適切でしょう？',
     answers: [
-      '1つの明かりを同じ強さで当て続ける',
-      '動きに合わせて明るさと色を変える合図を組む',
-      '舞台上の照明をすべてつけたままにする',
+      'その瞬間に一番きれいに見える自然光だけで、すぐ撮り切る',
+      '求める光の方向・明るさ・色を共有し、必要なら再現できるようテストと記録をして撮る',
+      '画面の全域を均一に明るくして、露出だけを安定させる',
     ],
     correct: 1,
     reactions: [
-      '主役が明かりの外へ移ると、表情が見えにくくなってしまいます。',
-      '俳優の移動と光の変化が同期し、昼から夜へ移る時間まで伝わりました。',
-      '全体が均等に明るいままだと、場面の焦点と時間の変化が弱くなります。',
+      '自然光の偶然性は魅力になりますが、別テイクや別画角とつながらない場合があります。',
+      '物語に必要な光を言葉とテストで共有すれば、時間や天候が変わっても意図を保てます。',
+      '技術的には安定しても、場面の焦点や時間帯の印象が薄くなることがあります。',
     ],
     keyword: '照明の合図',
     why: '舞台照明は、明るく見せるだけの仕事ではありません。俳優がどこへ動き、どのせりふで空気が変わるかを読み、光の方向、色、強さ、変化にかける時間を1つの流れとして設計します。',
     detail: '照明卓には、変化の組み合わせを番号ごとに記録できます。リハーサルでは舞台監督の合図を受け、俳優の速度や立ち位置と照明の変化が合うかを繰り返し確認します。急な変更があっても、全員が同じ番号を共有していれば、安全に修正できます。',
     checkpoints: ['俳優が光へ入る位置', '色と明るさを変える秒数', '舞台監督が出す合図の番号'],
+    caseStudy: {
+      title: '実例：『Barry Lyndon』（1975）の光づくり',
+      body: '撮影監督ジョン・オルコットは、時代の室内光を感じさせるため、自然光を観察して再現し、必要に応じて撮影可能な明るさへ調整したと語っています。狙う印象を先に定め、テストして再現可能にする考え方の実例です。',
+      sourceLabel: 'American Cinematographerの記事を読む（英語）',
+      sourceUrl: 'https://theasc.com/article/flashback-barry-lyndon/',
+    },
   },
   {
     id: 'sound',
@@ -108,22 +120,28 @@ const stages = [
     summary: '声、効果音、音楽を正しい順序で届ける。',
     responsibility: '音の設計と本番進行',
     tool: '音響卓、マイク、進行表',
-    question: '小さなせりふを届けながら、舞台転換の効果音と次の音楽も正確に出します。安全に本番を進める方法はどれでしょう？',
+    question: '俳優の小さなせりふ、ドアの効果音、次の場面の音楽が重なります。監督は「臨場感を残したい」と言い、撮影時間は限られています。最初にチームで決めるべきことは何でしょう？',
     answers: [
-      'すべての音量を最大にする',
-      '進行表を作り、マイクと音源を事前に確認する',
-      'その場の感覚だけで音を出す',
+      '現場の空気感を優先し、音の役割分担は編集で決める',
+      '現場で確実に収録する音、後で作る音、各音の合図と確認方法を進行表で共有する',
+      '全てを同じ音量で収録し、聞き取りやすさは後で自動補正する',
     ],
     correct: 1,
     reactions: [
-      '大きな音にせりふが埋もれ、物語が聞こえにくくなりました。',
-      '合図と音の状態を事前にそろえたため、せりふ、効果音、音楽が気持ちよくつながりました。',
-      '音の時機が毎回変わり、出演者と転換スタッフが動き出せません。',
+      '後工程の工夫は有効ですが、撮り直せないせりふや演技まで不確かにしてはいけません。',
+      '現場収録と後処理の役割を先に決めることで、演技・進行・仕上げの全員が判断しやすくなります。',
+      '音量をそろえるだけでは、せりふを守る優先順位やタイミングは決まりません。',
     ],
     keyword: '音の進行表',
     why: '本番では、音響だけが単独で動くわけではありません。効果音をきっかけに俳優が振り向き、音楽を合図に大道具が動くこともあります。誰が、どの言葉や動作を受けて音を出すかを事前に共有する必要があります。',
     detail: '進行表には、音源名、再生位置、音量、入り方、止め方、合図を記します。さらに本番前には、マイクの電池、予備音源、配線、客席での聞こえ方まで確認します。異常が起きたときに止める判断と、代わりの手段も決めておきます。',
     checkpoints: ['音を出すきっかけとなる言葉や動作', 'マイクと予備音源の状態', '舞台転換と干渉しない音量'],
+    caseStudy: {
+      title: '実例：『Maestro』（2023）の6分間ワンテイク',
+      body: 'アカデミーの取材によると、イーリー大聖堂でロンドン交響楽団と合唱団を迎えた演奏場面は、6分間のワンテイクとして撮影されました。演奏・演技・録音のどれを現場で成立させるかを、撮影前からチームで整える必要があります。',
+      sourceLabel: 'Academyの音響チーム取材を読む（英語）',
+      sourceUrl: 'https://newsletter.oscars.org/features/maestro-sound-team-interview',
+    },
   },
   {
     id: 'changeover',
@@ -138,22 +156,28 @@ const stages = [
     summary: '暗い舞台で、人と大道具の動線を安全につなぐ。',
     responsibility: '転換手順と安全の管理',
     tool: '転換表、蓄光印、連絡装置',
-    question: '暗転中に大きな舞台装置を入れ替えます。短い時間で、出演者とスタッフがぶつからずに転換するために最も大切な準備はどれでしょう？',
+    question: '暗転中に大きな装置を入れ替えます。演出上は10秒短くしたい一方、初回リハーサルでは通路が交差しました。次の判断として最も適切なのはどれでしょう？',
     answers: [
-      '各自が空いている場所を見つけて自由に動く',
-      '動く順番と通路を決め、明るい状態から繰り返し練習する',
-      '本番だけ集中して、できるだけ速く走る',
+      '経験のあるスタッフに任せ、通路は当日その場で調整する',
+      '転換の順番・通路・停止合図を固定し、明るい状態から安全に検証してから短縮を検討する',
+      '演出のテンポを優先して、装置の移動人数を減らして走る',
     ],
     correct: 1,
     reactions: [
-      '動線が交差し、暗い舞台で人と装置が近づきすぎました。',
-      '動く順番と通路が身体に入り、暗転中でも安全で静かな転換になりました。',
-      '速さを優先すると足元の確認が遅れ、事故や装置の破損につながります。',
+      '経験は大切ですが、暗転中の交差を個人の判断に任せると、再現性と安全性が下がります。',
+      '安全な手順を確立してから時間を削ることで、演出意図と人の安全を両立できます。',
+      '人数を減らす選択が有効な場合もありますが、検証なしに急ぐと負荷と危険が偏ります。',
     ],
     keyword: '転換表と安全確認',
     why: '暗転は観客から舞台が見えにくく、その反面、作業する側にも視界が少ない時間です。速さより先に、誰が何を持ち、どの経路を通り、どこで待つかを固定しなければなりません。',
     detail: '最初は作業灯をつけ、歩く速度で順番と干渉を確認します。次に明るさを落とし、蓄光印や小さな案内灯だけで同じ動きができるかを試します。装置が重い場合は、止める人と周囲を監視する人を分け、異常時に全員が止まる共通の合図も決めます。',
     checkpoints: ['人と装置の通路が交差しないこと', '暗くても見える停止位置', '異常時に全員が止まる共通合図'],
+    caseStudy: {
+      title: '現場で使う考え方：安全は「速さ」の前提',
+      body: '転換の内容は作品ごとに異なります。だからこそ、危険が出やすい通路・重量・視界・停止合図を先に共有し、明るい状態で検証します。安全な手順が決まって初めて、演出上のテンポを改善する相談ができます。',
+      sourceLabel: 'この教材での読み替え',
+      sourceUrl: '#question',
+    },
   },
   {
     id: 'editing',
@@ -168,22 +192,55 @@ const stages = [
     summary: '撮影した時間を整理し、失わず、完成形へ導く。',
     responsibility: '素材の同期・整理・保全',
     tool: '編集機、記録媒体、照合表',
-    question: '映像と音声を別々の機器で収録しました。編集で正しく同期し、大切な素材を失わないための方法はどれでしょう？',
+    question: '撮影最終日に、映像と別録り音声を受け取りました。急いで編集へ渡したい一方、カードは返却期限が迫っています。同期と保全の両方を守るには、どの順番で進めますか？',
     answers: [
-      '見た目が似たファイルを後から勘で組み合わせる',
-      '共通の合図で同期し、名前を整理して2か所以上へ複製する',
-      'すべての素材を1台の記録媒体だけに残す',
+      'まず編集を始め、バックアップは作品が完成してからまとめて作る',
+      '取り込みと再生を確認し、同期の手がかりと命名規則を整えて、別の場所にも検証済みの複製を置く',
+      '元カードを保管し、作業用のコピーは1台だけにして混乱を防ぐ',
     ],
     correct: 1,
     reactions: [
-      '口の動きと音がずれ、どの素材が同じテイクか分からなくなりました。',
-      '映像と音の対応が明確になり、もしもの故障にも耐えられる素材管理ができました。',
-      '記録媒体の故障や紛失が起きると、撮影した素材をすべて失う危険があります。',
+      '編集開始を急ぐほど、元データの確認と保全を先に済ませる価値が高まります。',
+      '急ぐ場面でも、確認・整理・検証済みの複製を一連の作業として扱えば、次の担当へ安全に渡せます。',
+      '整理は必要ですが、1台だけでは故障・紛失・誤操作に耐えられません。',
     ],
     keyword: '同期と2重化',
     why: '映像と音声は別々の時計で動くため、同じ瞬間を示す共通の手がかりが必要です。また、撮り直せない演技や公演記録は、1台の媒体へ置くだけでは安全とはいえません。',
     detail: '撮影開始時のカチンコや共通の時刻情報を手がかりに映像と音を合わせ、作品名、日付、場面、テイクが分かる規則で整理します。取り込み後は容量と再生を照合し、作業用と保全用を別の媒体へ保存します。複製は「作った」だけでなく、開けることまで確認して初めて完了です。',
     checkpoints: ['映像と音に共通する同期の手がかり', '誰が見ても分かる名前と整理規則', '物理的に離れた2か所以上の複製'],
+    caseStudy: {
+      title: '公開資料から：制作記録は作品の未来にも残る',
+      body: 'アカデミーのコレクションには、脚本、絵コンテ、撮影記録、デジタルファイルなど制作の過程を示す資料が収蔵されています。日々の命名と保全は編集のためだけでなく、後から制作を振り返るための記録にもなります。',
+      sourceLabel: 'Academy Collectionsを読む（英語）',
+      sourceUrl: 'https://www.oscars.org/library/collections',
+    },
+  },
+] as const;
+
+const confirmationTest = [
+  {
+    question: '撮影・照明・音響の担当が「急いでいるから、細かい共有は後で」と言っています。最初に確認するべきことは何でしょう？',
+    choices: ['各担当が自分の作業を先に終え、最後にまとめて確認する', '作品に必要な状態、合図、記録の担当を短くても同じ言葉でそろえる', '一番経験のある人の記憶だけを基準に進める'],
+    answer: 1,
+    trap: 2,
+    why: '現場の専門は異なっても、次の担当へ渡す情報は共通です。完璧な会議より、何を誰がいつ確認するかを先にそろえることが、手戻りを減らします。',
+    trapNote: '経験は重要ですが、個人の記憶だけでは引き継ぎや再現が難しくなります。',
+  },
+  {
+    question: '演出上のテンポを上げるため、準備時間を削る提案が出ました。制作チームの判断として最もよいものはどれでしょう？',
+    choices: ['安全と品質の確認点を保ったうえで、手順を試し、短縮できる部分を検証する', '本番で一度だけ試し、うまくいかなければ次回から元に戻す', '安全担当の確認は後にして、観客に見える部分だけ先に仕上げる'],
+    answer: 0,
+    trap: 1,
+    why: '速さは目的ではなく、作品を確実に届けるための工夫です。止める基準や安全確認を残したまま、リハーサルで改善を試します。',
+    trapNote: '本番は検証の場ではありません。失敗を前提にした進め方は、人と作品の両方を危険にさらします。',
+  },
+  {
+    question: '素材を次の担当へ渡す直前に、再生できるコピーが1つだけできました。納期を考えるとどうしますか？',
+    choices: ['まず渡して作業を始めてもらい、複製は空いた時間に作る', 'ファイル名だけを変え、元カードを返却して完了にする', '再生確認できる複製を別の場所にも置き、何を渡したか記録してから引き継ぐ'],
+    answer: 2,
+    trap: 0,
+    why: 'データは一度失うと撮り直せないことがあります。引き継ぎ前の確認と複製は、納期を守るための作業でもあります。',
+    trapNote: '早く動き出すことは魅力的ですが、唯一のコピーを渡す状態では、故障や誤操作に備えられません。',
   },
 ] as const;
 
@@ -226,6 +283,7 @@ const rankResults = [
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [responses, setResponses] = useState<Array<number | null>>(() => stages.map(() => null));
+  const [checkAnswers, setCheckAnswers] = useState<Array<number | null>>(() => confirmationTest.map(() => null));
   const stage = stages[current];
   const guide = guides[stage.guide];
   const answer = responses[current];
@@ -235,6 +293,9 @@ export default function Home() {
   const answeredLabel = countLabels[answeredCount];
   const correctLabel = countLabels[correctCount];
   const rankResult = rankResults[correctCount];
+  const checkedCount = checkAnswers.filter((value) => value !== null).length;
+  const checkCorrectCount = checkAnswers.reduce<number>((total, value, index) => total + (value === confirmationTest[index].answer ? 1 : 0), 0);
+  const allChecksAnswered = checkedCount === confirmationTest.length;
 
   const focusSection = (selector: string, block: 'start' | 'center' = 'start') => {
     window.setTimeout(() => {
@@ -252,8 +313,14 @@ export default function Home() {
   };
 
   const chooseAnswer = (index: number) => {
+    if (responses[current] !== null) return;
     setResponses((previous) => previous.map((value, itemIndex) => (itemIndex === current ? index : value)));
     window.setTimeout(() => document.querySelector('#answer')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 70);
+  };
+
+  const chooseCheckAnswer = (questionIndex: number, choiceIndex: number) => {
+    if (checkAnswers[questionIndex] !== null) return;
+    setCheckAnswers((previous) => previous.map((value, index) => (index === questionIndex ? choiceIndex : value)));
   };
 
   const moveNext = () => {
@@ -274,6 +341,7 @@ export default function Home() {
 
   const resetJourney = () => {
     setResponses(stages.map(() => null));
+    setCheckAnswers(confirmationTest.map(() => null));
     setCurrent(0);
     focusSection('#map-title');
   };
@@ -436,7 +504,7 @@ export default function Home() {
               const chosen = answer === index;
               const state = chosen ? (index === stage.correct ? ' correct' : ' incorrect') : '';
               return (
-                <button type="button" className={`answer-choice${state}`} key={choice} onClick={() => chooseAnswer(index)} aria-pressed={chosen}>
+                <button type="button" className={`answer-choice${state}`} key={choice} onClick={() => chooseAnswer(index)} aria-pressed={chosen} disabled={answer !== null}>
                   <span>{numerals[index]}</span><b>{choice}</b><i aria-hidden="true">→</i>
                 </button>
               );
@@ -459,6 +527,12 @@ export default function Home() {
                 <section><h4>現場では、こう動く</h4><p>{stage.detail}</p></section>
                 <section><h4>確認する3つの要点</h4><ul>{stage.checkpoints.map((item) => <li key={item}>{item}</li>)}</ul></section>
               </div>
+              <aside className="case-study">
+                <p>実例を手がかりに考える</p>
+                <h4>{stage.caseStudy.title}</h4>
+                <p>{stage.caseStudy.body}</p>
+                <a href={stage.caseStudy.sourceUrl} target={stage.caseStudy.sourceUrl.startsWith('http') ? '_blank' : undefined} rel={stage.caseStudy.sourceUrl.startsWith('http') ? 'noreferrer' : undefined}>{stage.caseStudy.sourceLabel}<span aria-hidden="true">↗</span></a>
+              </aside>
             </div>
             <button type="button" onClick={moveNext}>{allAnswered ? '完成した軌道を見る' : '次の未回答地点へ'}<span aria-hidden="true">→</span></button>
           </div>
@@ -489,6 +563,7 @@ export default function Home() {
 
             <div className="completion-actions">
               <a href="#map">軌道図で回答を見直す<span aria-hidden="true">↑</span></a>
+              <a href="#confirmation">確認テストを受ける<span aria-hidden="true">↓</span></a>
               <button type="button" onClick={resetJourney}>回答を消して最初から挑戦<span aria-hidden="true">↻</span></button>
             </div>
           </div>
@@ -498,6 +573,47 @@ export default function Home() {
             {guides.map((item) => (
               <img src={item.figure} alt={`${item.name}、${item.role}`} width={1024} height={1536} loading="lazy" decoding="async" key={item.id} />
             ))}
+          </div>
+        </section>
+      )}
+
+      {allAnswered && (
+        <section className="confirmation-section" id="confirmation" aria-labelledby="confirmation-title">
+          <div className="confirmation-heading">
+            <p>仕上げの確認テスト</p>
+            <h2 id="confirmation-title">制作の判断を、<br />自分の言葉で確かめる。</h2>
+            <span>全3問　答えは一度だけ選べます</span>
+          </div>
+          <p className="confirmation-lead">現場ごとの知識ではなく、引き継ぎ・安全・保全という共通の考え方を確かめます。正解は唯一の手法を示すものではなく、この教材で優先する判断基準です。</p>
+
+          <div className="confirmation-list">
+            {confirmationTest.map((item, questionIndex) => {
+              const chosen = checkAnswers[questionIndex];
+              return (
+                <article className="check-card" key={item.question}>
+                  <p>確認 {questionIndex + 1}／{confirmationTest.length}</p>
+                  <h3>{item.question}</h3>
+                  <div className="check-choices" aria-label={`確認テスト${questionIndex + 1}の答えを選ぶ`}>
+                    {item.choices.map((choice, choiceIndex) => {
+                      const state = chosen === choiceIndex ? (choiceIndex === item.answer ? ' correct' : ' incorrect') : '';
+                      return <button type="button" key={choice} className={`check-choice${state}`} onClick={() => chooseCheckAnswer(questionIndex, choiceIndex)} disabled={chosen !== null} aria-pressed={chosen === choiceIndex}><span>{numerals[choiceIndex]}</span>{choice}</button>;
+                    })}
+                  </div>
+                  {chosen !== null && (
+                    <div className="check-feedback" aria-live="polite">
+                      <b>{chosen === item.answer ? '理解できています' : 'ここを見直そう'}</b>
+                      {chosen !== item.answer && <p className="check-correct">この教材での判断は「{item.choices[item.answer]}」です。</p>}
+                      <p>{item.why}</p>
+                      {chosen === item.trap && <p className="trap-note">ありがちな思い込み：{item.trapNote}</p>}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+
+          <div className={`check-result${allChecksAnswered ? ' ready' : ''}`} aria-live="polite">
+            {allChecksAnswered ? <><p>確認テスト完了</p><b>{checkCorrectCount}／{confirmationTest.length} 問 正解</b><span>{checkCorrectCount === confirmationTest.length ? '制作の判断基準を、次の現場へ説明できる状態です。' : '解説を読み返し、迷った判断を軌道図でもう一度確かめましょう。'}</span></> : <><p>確認テスト進行中</p><b>{checkedCount}／{confirmationTest.length} 問 回答済み</b><span>すべて選ぶと、結果と振り返りが表示されます。</span></>}
           </div>
         </section>
       )}

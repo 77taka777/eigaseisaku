@@ -300,6 +300,8 @@ a { text-underline-offset: .25em; }
 .answer-list { display: grid; gap: 12px; }
 .answer-choice { width: 100%; min-height: 76px; display: grid; grid-template-columns: 54px 1fr 52px; align-items: center; gap: 5px; padding: 0; color: var(--ink); border: 1px solid #173b4d; background: transparent; text-align: left; cursor: pointer; transition: color .2s,background .2s,transform .2s,box-shadow .2s; }
 .answer-choice:hover { transform: translateX(7px); color: #fff; background: #173b4d; box-shadow: 0 0 18px rgb(23 59 77 / .18); }
+.answer-choice:disabled { cursor: default; }
+.answer-choice:disabled:hover { transform: none; }
 .answer-choice > span { align-self: stretch; display: grid; place-items: center; color: #fff; background: #173b4d; font-family: '映画見出し',sans-serif; font-size: 18px; }
 .answer-choice b { padding: 15px 18px; font-size: 14px; font-weight: 650; line-height: 1.7; }
 .answer-choice i { color: var(--accent); font-size: 19px; font-style: normal; text-align: center; }
@@ -542,6 +544,43 @@ footer p:last-child { font-size: 11px; }
 .detail-grid ul { margin: 0; padding: 0; list-style: none; }
 .detail-grid li { position: relative; padding: 10px 0 10px 22px; color: rgb(255 255 255 / .76); border-bottom: 1px solid rgb(255 255 255 / .15); font-size: 12px; line-height: 1.6; }
 .detail-grid li::before { content: '◆'; position: absolute; left: 0; top: 10px; color: var(--accent); font-size: 9px; }
+.case-study { margin-top: 32px; padding: 24px 26px; border: 1px solid rgb(66 217 255 / .37); background: linear-gradient(115deg,rgb(66 217 255 / .12),rgb(255 255 255 / .035)); }
+.case-study > p:first-child { margin: 0 0 8px; color: var(--cyan); font-size: 10px; font-weight: 800; letter-spacing: .14em; }
+.case-study h4 { margin: 0 0 10px; color: #fff; font-size: 17px; }
+.case-study > p:nth-of-type(2) { max-width: 920px; margin: 0; color: rgb(255 255 255 / .76); font-size: 13px; line-height: 1.9; }
+.case-study a { display: inline-flex; gap: 8px; margin-top: 15px; color: var(--gold); font-size: 12px; font-weight: 800; text-underline-offset: 4px; }
+
+/* GALLEARN式の仕上げ確認 */
+.confirmation-section { padding: 120px max(32px,calc((100vw - 1050px) / 2)); color: #eaf5ff; background: radial-gradient(circle at 86% 8%,rgb(255 198 74 / .14),transparent 24%),linear-gradient(145deg,#071220,#0b1730 53%,#07101b); }
+.confirmation-heading { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: end; border-bottom: 1px solid rgb(255 255 255 / .24); padding-bottom: 28px; }
+.confirmation-heading p { margin: 0; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.confirmation-heading h2 { grid-column: 1; margin: 12px 0 0; font-family: '映画見出し',sans-serif; font-size: clamp(38px,4.7vw,62px); font-weight: 400; line-height: 1.45; }
+.confirmation-heading span { grid-column: 2; grid-row: 1 / span 2; padding: 10px 13px; border: 1px solid rgb(255 255 255 / .25); color: rgb(255 255 255 / .72); font-size: 11px; }
+.confirmation-lead { max-width: 760px; margin: 28px 0 48px; color: rgb(255 255 255 / .72); font-size: 14px; line-height: 2; }
+.confirmation-list { display: grid; gap: 20px; }
+.check-card { padding: 31px clamp(22px,4vw,46px); border: 1px solid rgb(255 255 255 / .22); background: rgb(0 5 16 / .34); box-shadow: inset 4px 0 0 var(--cyan); }
+.check-card > p { margin: 0; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.check-card h3 { max-width: 900px; margin: 13px 0 24px; color: #fff; font-size: clamp(18px,2.3vw,25px); font-weight: 650; line-height: 1.75; }
+.check-choices { display: grid; gap: 9px; }
+.check-choice { min-height: 58px; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center; padding: 0 16px 0 0; color: #eef7ff; border: 1px solid rgb(255 255 255 / .32); background: rgb(255 255 255 / .035); text-align: left; font: inherit; font-size: 13px; line-height: 1.65; cursor: pointer; transition: background .2s,transform .2s; }
+.check-choice:hover { transform: translateX(5px); background: rgb(66 217 255 / .16); }
+.check-choice:disabled { cursor: default; }
+.check-choice:disabled:hover { transform: none; }
+.check-choice > span { align-self: stretch; display: grid; place-items: center; color: #07101b; background: var(--cyan); font-family: '映画見出し',sans-serif; font-size: 16px; }
+.check-choice.correct { border-color: #79ffd1; background: rgb(121 255 209 / .17); }
+.check-choice.correct > span { background: #79ffd1; }
+.check-choice.incorrect { border-color: #ff8e7c; background: rgb(255 85 56 / .18); }
+.check-choice.incorrect > span { background: #ff8e7c; }
+.check-feedback { margin-top: 18px; padding: 17px 20px; border-left: 3px solid var(--gold); background: rgb(255 255 255 / .07); }
+.check-feedback b { color: var(--gold); font-size: 13px; }
+.check-feedback p { margin: 9px 0 0; color: rgb(255 255 255 / .8); font-size: 13px; line-height: 1.85; }
+.check-feedback .check-correct { color: #fff; font-weight: 700; }
+.check-feedback .trap-note { padding: 10px 12px; color: #ffd8ae; border: 1px solid rgb(255 176 107 / .4); background: rgb(255 176 107 / .1); }
+.check-result { display: grid; grid-template-columns: auto auto 1fr; gap: 18px; align-items: center; margin-top: 32px; padding: 20px 24px; border: 1px solid rgb(255 255 255 / .22); background: rgb(255 255 255 / .05); }
+.check-result.ready { border-color: var(--gold); box-shadow: 0 0 28px rgb(255 198 74 / .12); }
+.check-result p { margin: 0; color: var(--cyan); font-size: 10px; font-weight: 800; letter-spacing: .15em; }
+.check-result b { color: var(--gold); font-family: '映画見出し',sans-serif; font-size: 25px; font-weight: 400; }
+.check-result span { color: rgb(255 255 255 / .72); font-size: 12px; line-height: 1.7; }
 
 /* 五地点を終えたあとの完成記録 */
 .completion-section {
