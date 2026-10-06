@@ -1,0 +1,1 @@
+import{i as e}from"./framework-BaE7mD_r.js";var t=e();function n(){return(0,t.jsx)(`button`,{type:`button`,className:`guide-print`,onClick:()=>window.print(),children:`この手引きを印刷する`})}export{n as PrintButton};
