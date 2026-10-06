@@ -2,87 +2,230 @@
 
 /* eslint-disable @next/next/no-img-element -- 透明PNGを直接配信し、軌道図内でも同じ輪郭と比率を保つため。 */
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { glossary } from '@/content/glossary';
-import { program } from '@/content/program';
-import { guides, pipeline, rankResults, selfCheck, stages } from '@/content/stages';
-import { sendReport } from '@/lib/report';
+import { useState } from 'react';
+
+const guides = [
+  {
+    id: 'director',
+    name: 'レン',
+    role: '映像ディレクター',
+    figure: '/assets/crew/future-director.png',
+    accent: '#ff5538',
+    message: '画面の前後を読み、物語の時間をつなぐ案内役。',
+    firstStage: 0,
+  },
+  {
+    id: 'lighting',
+    name: 'アカリ',
+    role: '照明プランナー',
+    figure: '/assets/crew/future-lighting.png',
+    accent: '#ffc64a',
+    message: '光の向きと色から、場面の温度を設計する案内役。',
+    firstStage: 1,
+  },
+  {
+    id: 'sound',
+    name: 'ソウ',
+    role: '音響・進行担当',
+    figure: '/assets/crew/future-sound.png',
+    accent: '#42d9ff',
+    message: '声、音、合図をそろえ、本番の流れを守る案内役。',
+    firstStage: 2,
+  },
+] as const;
+
+const stages = [
+  {
+    id: 'shooting',
+    number: '1',
+    name: '撮影スタジオ',
+    shortName: '撮影',
+    role: '撮影監督',
+    guide: 0,
+    accent: '#ff5538',
+    x: 11,
+    y: 72,
+    summary: '違う時間に撮った映像を、1つの場面へつなぐ。',
+    responsibility: '画面設計と撮影の進行',
+    tool: 'カメラ、絵コンテ、記録表',
+    question: '同じ会話を、違う角度から何度も撮影します。編集したときに俳優の動きや小道具が急に変わらないようにするには、何が必要でしょう？',
+    answers: [
+      'テイクごとに自由に動きを変える',
+      '立ち位置、動き、小道具の状態を記録して合わせる',
+      '撮影がすべて終わってから思い出す',
+    ],
+    correct: 1,
+    reactions: [
+      'カットをつなぐと、手や小道具の位置が突然変わって見えてしまいます。',
+      '前のカットの状態を共有できたため、別々に撮った映像が自然につながりました。',
+      '細かな状態を記憶だけで再現するのは難しく、撮り直しの原因になります。',
+    ],
+    keyword: 'つながりの管理',
+    why: '映画の場面は、台本の順番どおりに撮るとは限りません。同じ数秒の会話でも、俳優ごとの寄り、全体、手元などを別々の時刻に撮影します。そのため、前のテイクの状態を記録して再現しなければ、編集した瞬間に動きや物の位置が飛んで見えます。',
+    detail: '現場では、担当者が台本へ動作を書き込み、衣装、小道具、飲み物の量、髪の乱れ、照明の向きまで写真と文章で残します。次の画角を撮る前に、その記録と直前の映像を照合します。演技を縛るためではなく、俳優が安心して同じ時間を再現できるようにする仕組みです。',
+    checkpoints: ['俳優の立ち位置と視線', '衣装・髪・小道具の状態', '動作を始める言葉と終える位置'],
+  },
+  {
+    id: 'lighting',
+    number: '2',
+    name: '照明リハーサル室',
+    shortName: '照明',
+    role: '照明プランナー',
+    guide: 1,
+    accent: '#ffc64a',
+    x: 30,
+    y: 34,
+    summary: '光の変化で、舞台の時間と感情を動かす。',
+    responsibility: '光の設計と合図の管理',
+    tool: '照明卓、仕込み図、台本',
+    question: '主役が舞台を横切る間に、場面を昼から夜へ変えます。表情を見せながら時間の変化も伝えるには、どうすればよいでしょう？',
+    answers: [
+      '1つの明かりを同じ強さで当て続ける',
+      '動きに合わせて明るさと色を変える合図を組む',
+      '舞台上の照明をすべてつけたままにする',
+    ],
+    correct: 1,
+    reactions: [
+      '主役が明かりの外へ移ると、表情が見えにくくなってしまいます。',
+      '俳優の移動と光の変化が同期し、昼から夜へ移る時間まで伝わりました。',
+      '全体が均等に明るいままだと、場面の焦点と時間の変化が弱くなります。',
+    ],
+    keyword: '照明の合図',
+    why: '舞台照明は、明るく見せるだけの仕事ではありません。俳優がどこへ動き、どのせりふで空気が変わるかを読み、光の方向、色、強さ、変化にかける時間を1つの流れとして設計します。',
+    detail: '照明卓には、変化の組み合わせを番号ごとに記録できます。リハーサルでは舞台監督の合図を受け、俳優の速度や立ち位置と照明の変化が合うかを繰り返し確認します。急な変更があっても、全員が同じ番号を共有していれば、安全に修正できます。',
+    checkpoints: ['俳優が光へ入る位置', '色と明るさを変える秒数', '舞台監督が出す合図の番号'],
+  },
+  {
+    id: 'sound',
+    number: '3',
+    name: '音響管制室',
+    shortName: '音響',
+    role: '音響・進行担当',
+    guide: 2,
+    accent: '#42d9ff',
+    x: 50,
+    y: 64,
+    summary: '声、効果音、音楽を正しい順序で届ける。',
+    responsibility: '音の設計と本番進行',
+    tool: '音響卓、マイク、進行表',
+    question: '小さなせりふを届けながら、舞台転換の効果音と次の音楽も正確に出します。安全に本番を進める方法はどれでしょう？',
+    answers: [
+      'すべての音量を最大にする',
+      '進行表を作り、マイクと音源を事前に確認する',
+      'その場の感覚だけで音を出す',
+    ],
+    correct: 1,
+    reactions: [
+      '大きな音にせりふが埋もれ、物語が聞こえにくくなりました。',
+      '合図と音の状態を事前にそろえたため、せりふ、効果音、音楽が気持ちよくつながりました。',
+      '音の時機が毎回変わり、出演者と転換スタッフが動き出せません。',
+    ],
+    keyword: '音の進行表',
+    why: '本番では、音響だけが単独で動くわけではありません。効果音をきっかけに俳優が振り向き、音楽を合図に大道具が動くこともあります。誰が、どの言葉や動作を受けて音を出すかを事前に共有する必要があります。',
+    detail: '進行表には、音源名、再生位置、音量、入り方、止め方、合図を記します。さらに本番前には、マイクの電池、予備音源、配線、客席での聞こえ方まで確認します。異常が起きたときに止める判断と、代わりの手段も決めておきます。',
+    checkpoints: ['音を出すきっかけとなる言葉や動作', 'マイクと予備音源の状態', '舞台転換と干渉しない音量'],
+  },
+  {
+    id: 'changeover',
+    number: '4',
+    name: '舞台転換ヤード',
+    shortName: '転換',
+    role: '舞台進行担当',
+    guide: 2,
+    accent: '#b688ff',
+    x: 70,
+    y: 30,
+    summary: '暗い舞台で、人と大道具の動線を安全につなぐ。',
+    responsibility: '転換手順と安全の管理',
+    tool: '転換表、蓄光印、連絡装置',
+    question: '暗転中に大きな舞台装置を入れ替えます。短い時間で、出演者とスタッフがぶつからずに転換するために最も大切な準備はどれでしょう？',
+    answers: [
+      '各自が空いている場所を見つけて自由に動く',
+      '動く順番と通路を決め、明るい状態から繰り返し練習する',
+      '本番だけ集中して、できるだけ速く走る',
+    ],
+    correct: 1,
+    reactions: [
+      '動線が交差し、暗い舞台で人と装置が近づきすぎました。',
+      '動く順番と通路が身体に入り、暗転中でも安全で静かな転換になりました。',
+      '速さを優先すると足元の確認が遅れ、事故や装置の破損につながります。',
+    ],
+    keyword: '転換表と安全確認',
+    why: '暗転は観客から舞台が見えにくく、その反面、作業する側にも視界が少ない時間です。速さより先に、誰が何を持ち、どの経路を通り、どこで待つかを固定しなければなりません。',
+    detail: '最初は作業灯をつけ、歩く速度で順番と干渉を確認します。次に明るさを落とし、蓄光印や小さな案内灯だけで同じ動きができるかを試します。装置が重い場合は、止める人と周囲を監視する人を分け、異常時に全員が止まる共通の合図も決めます。',
+    checkpoints: ['人と装置の通路が交差しないこと', '暗くても見える停止位置', '異常時に全員が止まる共通合図'],
+  },
+  {
+    id: 'editing',
+    number: '5',
+    name: '編集・保全室',
+    shortName: '編集',
+    role: '編集・データ担当',
+    guide: 0,
+    accent: '#75a8ff',
+    x: 89,
+    y: 62,
+    summary: '撮影した時間を整理し、失わず、完成形へ導く。',
+    responsibility: '素材の同期・整理・保全',
+    tool: '編集機、記録媒体、照合表',
+    question: '映像と音声を別々の機器で収録しました。編集で正しく同期し、大切な素材を失わないための方法はどれでしょう？',
+    answers: [
+      '見た目が似たファイルを後から勘で組み合わせる',
+      '共通の合図で同期し、名前を整理して2か所以上へ複製する',
+      'すべての素材を1台の記録媒体だけに残す',
+    ],
+    correct: 1,
+    reactions: [
+      '口の動きと音がずれ、どの素材が同じテイクか分からなくなりました。',
+      '映像と音の対応が明確になり、もしもの故障にも耐えられる素材管理ができました。',
+      '記録媒体の故障や紛失が起きると、撮影した素材をすべて失う危険があります。',
+    ],
+    keyword: '同期と2重化',
+    why: '映像と音声は別々の時計で動くため、同じ瞬間を示す共通の手がかりが必要です。また、撮り直せない演技や公演記録は、1台の媒体へ置くだけでは安全とはいえません。',
+    detail: '撮影開始時のカチンコや共通の時刻情報を手がかりに映像と音を合わせ、作品名、日付、場面、テイクが分かる規則で整理します。取り込み後は容量と再生を照合し、作業用と保全用を別の媒体へ保存します。複製は「作った」だけでなく、開けることまで確認して初めて完了です。',
+    checkpoints: ['映像と音に共通する同期の手がかり', '誰が見ても分かる名前と整理規則', '物理的に離れた2か所以上の複製'],
+  },
+] as const;
 
 const numerals = ['1', '2', '3'] as const;
 const countLabels = ['0', '1', '2', '3', '4', '5'] as const;
 const routeNames = ['one', 'two', 'three', 'four'] as const;
-const scaleLabels = ['1', '2', '3', '4', '5'] as const;
-const STORAGE_KEY = 'mirai-seisaku-roku:v2';
-
-type Progress = {
-  responses: Array<number | null>;
-  before: number | null;
-  after: number | null;
-  interest: number | null;
-  completedOn: string | null;
-  reported: boolean;
-};
-
-const emptyProgress = (): Progress => ({
-  responses: stages.map(() => null),
-  before: null,
-  after: null,
-  interest: null,
-  completedOn: null,
-  reported: false,
-});
-
-const formatToday = () =>
-  new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
-
-const inRange = (value: unknown, max: number): value is number =>
-  typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= max;
-
-/** 端末に残した記録を読み込む。形が合わない値は捨てて、安全な初期値に戻す。 */
-const readProgress = (): Progress | null => {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw) as Partial<Progress>;
-    if (!Array.isArray(data.responses) || data.responses.length !== stages.length) return null;
-    return {
-      responses: data.responses.map((value) => (inRange(value, 2) ? value : null)),
-      before: inRange(data.before, 4) ? data.before : null,
-      after: inRange(data.after, 4) ? data.after : null,
-      interest: inRange(data.interest, 2) ? data.interest : null,
-      completedOn: typeof data.completedOn === 'string' ? data.completedOn.slice(0, 20) : null,
-      reported: data.reported === true,
-    };
-  } catch {
-    return null;
-  }
-};
+const rankResults = [
+  {
+    rank: 'E',
+    title: '開幕を待つ見習いクルー',
+    message: '今回は準備回。解説を手がかりにもう1度挑めば、次の合図がきっと見つかります。',
+  },
+  {
+    rank: 'D',
+    title: '最初の合図をつかんだ新人',
+    message: '1つの確かな判断が、舞台裏を知る大事な最初の1歩になりました。',
+  },
+  {
+    rank: 'C',
+    title: '伸び盛りのアシスタント',
+    message: '2つの大切な判断をつかみ、次のリハーサルでさらに腕を磨けます。',
+  },
+  {
+    rank: 'B',
+    title: '息の合った制作クルー',
+    message: '現場の要所をしっかり押さえ、作品づくりの流れが見えてきました。',
+  },
+  {
+    rank: 'A',
+    title: '本番を支えるチーフクルー',
+    message: 'ほぼすべての合図を的確につかみ、チームを頼もしく導ける判断力です。',
+  },
+  {
+    rank: 'S',
+    title: '未来をつなぐ総合演出家',
+    message: 'すべての現場判断が見事にそろい、物語を最高の形で未来へ送り出しました。',
+  },
+] as const;
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
-  const [progress, setProgress] = useState<Progress>(emptyProgress);
-  const [loaded, setLoaded] = useState(false);
-  const [nickname, setNickname] = useState('');
-  const { responses, before, after, interest, completedOn } = progress;
-
-  // 端末に残した記録を、画面の表示後に読み込む（サーバー側の描画と食い違わないようにするため）。
-  useEffect(() => {
-    const saved = readProgress();
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 保存済みの記録を初回だけ反映する。
-    if (saved) setProgress(saved);
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-    } catch {
-      // 保存できない環境でも、体験はそのまま続けられる。
-    }
-  }, [loaded, progress]);
-
+  const [responses, setResponses] = useState<Array<number | null>>(() => stages.map(() => null));
   const stage = stages[current];
   const guide = guides[stage.guide];
   const answer = responses[current];
@@ -109,29 +252,8 @@ export default function Home() {
   };
 
   const chooseAnswer = (index: number) => {
-    const today = formatToday();
-    setProgress((previous) => {
-      const next = previous.responses.map((value, itemIndex) => (itemIndex === current ? index : value));
-      const done = next.every((value) => value !== null);
-      return { ...previous, responses: next, completedOn: done ? previous.completedOn ?? today : null };
-    });
-    window.setTimeout(() => document.querySelector('#answer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 70);
-  };
-
-  /** ふり返りの2問がそろった時点で、匿名の結果を1度だけ送る（送信先が未設定なら何もしない）。 */
-  const recordReflection = (nextAfter: number | null, nextInterest: number | null) => {
-    const ready = allAnswered && nextAfter !== null && nextInterest !== null && !progress.reported;
-    if (ready) {
-      sendReport({
-        completedAt: new Date().toISOString().slice(0, 10),
-        correct: correctCount,
-        total: stages.length,
-        before: before === null ? null : before + 1,
-        after: nextAfter + 1,
-        interest: nextInterest,
-      });
-    }
-    setProgress((previous) => ({ ...previous, after: nextAfter, interest: nextInterest, reported: previous.reported || ready }));
+    setResponses((previous) => previous.map((value, itemIndex) => (itemIndex === current ? index : value)));
+    window.setTimeout(() => document.querySelector('#answer')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 70);
   };
 
   const moveNext = () => {
@@ -151,8 +273,7 @@ export default function Home() {
   };
 
   const resetJourney = () => {
-    setProgress(emptyProgress());
-    setNickname('');
+    setResponses(stages.map(() => null));
     setCurrent(0);
     focusSection('#map-title');
   };
@@ -165,7 +286,6 @@ export default function Home() {
           <a href="#crew">案内役</a>
           <a href="#map">制作軌道図</a>
           <a href="#question">5つの問い</a>
-          <a href="#glossary">用語集</a>
         </nav>
         <a className="header-action" href="#map">軌道図へ</a>
       </header>
@@ -176,11 +296,6 @@ export default function Home() {
         <div className="energy-trails" aria-hidden="true"><i /><i /><i /><i /><i /></div>
         <div className="horizon-grid" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="hero-organizer">
-            <span>{program.organizer.name}</span>
-            <b>{program.csr.label}</b>
-            {program.organizer.sample && <i>サンプル表記</i>}
-          </p>
           <p className="hero-kicker">映画と舞台の制作をめぐる5つの問い</p>
           <h1 className="cinema-title" id="hero-title">未来制作録</h1>
           <p className="hero-statement">物語が、<em>生まれる瞬間へ。</em></p>
@@ -204,69 +319,7 @@ export default function Home() {
         </div>
         <div className="about-copy">
           <p>映画や舞台は、1度きりのひらめきで完成するものではありません。カメラの位置、光の変化、音を出す時機、安全な転換、素材の保全。担当する人たちが試し、記録し、情報をつなぐことで、まだ存在しない場面が形になります。</p>
-          <p>軌道図から5つの現場を選び、制作現場を想定した問いに答えてください。選んだあとは、判断の理由、実際の手順、その仕事に就く道すじ、自分で試せる課題まで読めます。</p>
-        </div>
-      </section>
-
-
-      <section className="learn-section" id="learn" aria-labelledby="learn-title">
-        <div className="learn-heading">
-          <p>このプログラムで学ぶこと</p>
-          <h2 id="learn-title">観る側から、<br />つくる側の目へ。</h2>
-          <dl className="learn-meta">
-            <div><dt>対象</dt><dd>{program.learning.audience}</dd></div>
-            <div><dt>時間</dt><dd>{program.learning.duration}</dd></div>
-            <div><dt>参加</dt><dd>{program.learning.cost}</dd></div>
-          </dl>
-        </div>
-
-        <ol className="learn-goals">
-          {program.learning.objectives.map((item, index) => (
-            <li key={item}><span>{numerals[index]}</span><p>{item}</p></li>
-          ))}
-        </ol>
-
-        <div className="pipeline" aria-labelledby="pipeline-title">
-          <h3 id="pipeline-title">作品ができるまで</h3>
-          <p>このサイトで体験できるのは、光っている段階です。企画や宣伝など、ほかにも多くの仕事が作品を支えています。</p>
-          <ol>
-            {pipeline.map((phase) => {
-              const linked = stages.map((item, index) => ({ item, index })).filter(({ item }) => item.phase === phase.id);
-              return (
-                <li className={linked.length > 0 ? 'live' : undefined} key={phase.id}>
-                  <b>{phase.name}</b>
-                  <p>{phase.text}</p>
-                  <small>{phase.roles}</small>
-                  {linked.length > 0 && (
-                    <div>
-                      {linked.map(({ item, index }) => (
-                        <button type="button" key={item.id} onClick={() => chooseStage(index, true)}>{item.shortName}</button>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-
-        <div className="self-check" role="group" aria-labelledby="before-title">
-          <p>はじめる前に</p>
-          <h3 id="before-title">{selfCheck.question}</h3>
-          <div className="scale">
-            {selfCheck.scale.map((label, index) => (
-              <button
-                type="button"
-                key={label}
-                className={before === index ? 'selected' : undefined}
-                aria-pressed={before === index}
-                onClick={() => setProgress((previous) => ({ ...previous, before: index }))}
-              >
-                <span>{scaleLabels[index]}</span><small>{label}</small>
-              </button>
-            ))}
-          </div>
-          <small>答えなくても進めます。最後にもう1度たずねるので、自分の変化をくらべられます。</small>
+          <p>軌道図から5つの現場を選び、制作現場を想定した問いに答えてください。選んだあとは、理由、実際の手順、確認項目まで詳しく読めます。</p>
         </div>
       </section>
 
@@ -356,7 +409,6 @@ export default function Home() {
             <p className="role-label">第{stage.number}地点　案内役：{guide.name}</p>
             <h3>{stage.name}</h3>
             <p className="role-summary">{stage.summary}</p>
-            <p className="stage-objective"><b>この地点のねらい</b>{stage.objective}</p>
             <dl>
               <div><dt>今回の担当</dt><dd>{stage.role}</dd></div>
               <div><dt>受け持つこと</dt><dd>{stage.responsibility}</dd></div>
@@ -407,40 +459,6 @@ export default function Home() {
                 <section><h4>現場では、こう動く</h4><p>{stage.detail}</p></section>
                 <section><h4>確認する3つの要点</h4><ul>{stage.checkpoints.map((item) => <li key={item}>{item}</li>)}</ul></section>
               </div>
-
-              <div className="learn-extra">
-                <section className="career-card">
-                  <p>この仕事を知る</p>
-                  <h4>{stage.role}</h4>
-                  <dl>
-                    <div><dt>どんな仕事</dt><dd>{stage.career.work}</dd></div>
-                    <div><dt>向いている人</dt><dd>{stage.career.fit}</dd></div>
-                    <div><dt>なるには</dt><dd>{stage.career.path}</dd></div>
-                  </dl>
-                </section>
-
-                {stage.staffVoice && (
-                  <figure className="staff-voice">
-                    <figcaption><b>現場の声</b>{stage.staffVoice.title}　{stage.staffVoice.name}</figcaption>
-                    <blockquote>{stage.staffVoice.text}</blockquote>
-                  </figure>
-                )}
-
-                <section className="try-card">
-                  <p>やってみよう</p>
-                  <h4>{stage.tryIt.title}</h4>
-                  <p>{stage.tryIt.steps}</p>
-                  <dl>
-                    <div><dt>用意するもの</dt><dd>{stage.tryIt.items}</dd></div>
-                    <div><dt>気をつけること</dt><dd>{stage.tryIt.care}</dd></div>
-                  </dl>
-                </section>
-
-                <section className="talk-card">
-                  <p>話し合いの問い</p>
-                  <h4>{stage.discussion}</h4>
-                </section>
-              </div>
             </div>
             <button type="button" onClick={moveNext}>{allAnswered ? '完成した軌道を見る' : '次の未回答地点へ'}<span aria-hidden="true">→</span></button>
           </div>
@@ -469,44 +487,6 @@ export default function Home() {
               {stages.map((item) => <li key={item.id}><span>{item.number}</span>{item.keyword}</li>)}
             </ul>
 
-            <div className="reflection" role="group" aria-labelledby="after-title">
-              <p>ふり返り</p>
-              <h3 id="after-title">{selfCheck.postQuestion}</h3>
-              <div className="scale">
-                {selfCheck.scale.map((label, index) => (
-                  <button
-                    type="button"
-                    key={label}
-                    className={after === index ? 'selected' : undefined}
-                    aria-pressed={after === index}
-                    onClick={() => recordReflection(index, interest)}
-                  >
-                    <span>{scaleLabels[index]}</span><small>{label}</small>
-                  </button>
-                ))}
-              </div>
-              {before !== null && after !== null && (
-                <p className="growth" aria-live="polite">
-                  はじめ <b>{scaleLabels[before]}</b><i aria-hidden="true">→</i>いま <b>{scaleLabels[after]}</b>
-                  <span>{after > before ? '知っていることが増えました。' : after === before ? '知っていることを、確かめ直せました。' : '知らないことの広さに気づけたのも、大きな1歩です。'}</span>
-                </p>
-              )}
-              <h3>{selfCheck.interestQuestion}</h3>
-              <div className="interest">
-                {selfCheck.interest.map((label, index) => (
-                  <button
-                    type="button"
-                    key={label}
-                    className={interest === index ? 'selected' : undefined}
-                    aria-pressed={interest === index}
-                    onClick={() => recordReflection(after, index)}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="completion-actions">
               <a href="#map">軌道図で回答を見直す<span aria-hidden="true">↑</span></a>
               <button type="button" onClick={resetJourney}>回答を消して最初から挑戦<span aria-hidden="true">↻</span></button>
@@ -522,57 +502,6 @@ export default function Home() {
         </section>
       )}
 
-
-      {allAnswered && program.certificate.enabled && (
-        <section className="certificate-section" id="certificate" aria-labelledby="certificate-title">
-          <div className="certificate-tools">
-            <p>学びの記録を持ち帰る</p>
-            <h2 id="certificate-title">修了証をつくる。</h2>
-            <label htmlFor="nickname">修了証に入れる名前（ニックネームで大丈夫です）</label>
-            <input
-              id="nickname"
-              type="text"
-              value={nickname}
-              maxLength={20}
-              autoComplete="off"
-              placeholder="例：みらい"
-              onChange={(event) => setNickname(event.target.value)}
-            />
-            <small>入力した名前は保存も送信もされません。印刷するか、画面を保存してお使いください。</small>
-            <button type="button" className="future-button" onClick={() => window.print()}><span>修了証を印刷する</span><i aria-hidden="true">→</i></button>
-          </div>
-
-          <article className="certificate" aria-label="修了証の見本">
-            <p className="certificate-program">{program.title}　{program.csr.label}</p>
-            <h3>{program.certificate.heading}</h3>
-            <p className="certificate-name">{nickname.trim() || '　'}<span>さん</span></p>
-            <p className="certificate-body">{program.certificate.body}</p>
-            <p className="certificate-rank"><small>制作称号</small><b>{rankResult.title}</b></p>
-            <ul>{stages.map((item) => <li key={item.id}>{item.keyword}</li>)}</ul>
-            <p className="certificate-foot">
-              <span>{completedOn}</span>
-              <span>{program.organizer.name}{program.organizer.sample && '（サンプル表記）'}</span>
-            </p>
-          </article>
-        </section>
-      )}
-
-      <section className="glossary-section" id="glossary" aria-labelledby="glossary-title">
-        <div className="section-heading">
-          <p>現場のことば</p>
-          <h2 id="glossary-title">用語集。</h2>
-          <span>問いと解説に出てくる言葉を、読みがなつきでまとめました。</span>
-        </div>
-        <dl className="glossary-list">
-          {glossary.map((item) => (
-            <div key={item.term}>
-              <dt>{item.reading ? <ruby>{item.term}<rt>{item.reading}</rt></ruby> : item.term}</dt>
-              <dd>{item.text}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
       <section className="closing" aria-labelledby="closing-title">
         <div className="closing-flare" aria-hidden="true" />
         <p>物語を未来へ送るために</p>
@@ -583,28 +512,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="csr-footer">
-        <div className="csr-brand">
-          <p className="csr-title">{program.title}</p>
-          <p className="csr-organizer">
-            {program.organizer.name}　{program.organizer.department}
-            {program.organizer.sample && <i>サンプル表記</i>}
-          </p>
-          <p className="csr-label">{program.csr.label}</p>
-        </div>
-        <div className="csr-info">
-          <p>{program.csr.statement}</p>
-          <p>{program.privacy}</p>
-          {program.supervisors.length > 0 && (
-            <p>監修：{program.supervisors.map((item) => `${item.role}　${item.name}`).join('／')}</p>
-          )}
-        </div>
-        <nav className="csr-links" aria-label="関連ページ">
-          <Link href="/teacher">先生・主催者の方へ<span aria-hidden="true">→</span></Link>
-          {program.organizer.url && <a href={program.organizer.url} rel="noopener">社会貢献活動について<span aria-hidden="true">→</span></a>}
-          {program.organizer.contact && <a href={program.organizer.contact}>お問い合わせ<span aria-hidden="true">→</span></a>}
-        </nav>
-      </footer>
+      <footer><p>未来制作録</p><p>映画と舞台の仕事を知るための自主制作サイト</p></footer>
     </main>
   );
 }
