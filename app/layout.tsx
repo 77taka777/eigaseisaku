@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://mirai-seisaku.example'),
   title: '未来制作録｜映画と舞台の制作をめぐる問い',
-  description: '映画と舞台をつくる仕事を、3人の案内役と5つの問いから学べる無料の学習プログラム。職業紹介、体験課題、修了証、授業用の手引きつき。',
+  description: '3人の案内役と、撮影・照明・音響・舞台転換・編集の5つの問いを巡る映画・舞台制作サイト。',
   openGraph: {
     title: '未来制作録',
     description: '物語が、生まれる瞬間へ。',
